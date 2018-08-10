@@ -7,16 +7,16 @@
 #include "cutest/cut.h"
 
 #ifndef SYSINFO_ARCH
-#define SYSINFO_ARCH        ""
+#define SYSINFO_ARCH        "Cortex-M0+"
 #endif
 #ifndef SYSINFO_MCU
-#define SYSINFO_MCU         ""
+#define SYSINFO_MCU         "FM33A048"
 #endif
 #ifndef SYSINFO_DEVICE_NAME
-#define SYSINFO_DEVICE_NAME ""
+#define SYSINFO_DEVICE_NAME "FM33A0XX-DISCOVERY"
 #endif
 #ifndef SYSINFO_APP_VERSION
-#define SYSINFO_APP_VERSION ""
+#define SYSINFO_APP_VERSION "V1.0"
 #endif
 #define SYSINFO_KERNEL      "AOS"
 
@@ -63,7 +63,7 @@
 #define TEST_CONFIG_YLOOP_ENABLED               (1)
 #endif
 #if (TEST_CONFIG_YLOOP_ENABLED)
-#define TEST_CONFIG_YLOOP_EVENT_COUNT           (1000)
+#define TEST_CONFIG_YLOOP_EVENT_COUNT           (100)
 #define TEST_CONFIG_YLOOP_LOOP_COUNT            (5)
 #endif
 

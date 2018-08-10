@@ -1,0 +1,10 @@
+.\objects\yts_main.o: ..\..\..\..\test\testcase\yts_main.c
+.\objects\yts_main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\yts_main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\yts_main.o: ..\..\..\..\include\aos/kernel.h
+.\objects\yts_main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\yts_main.o: ..\..\..\..\utility\libc\compilers\armlibc\sys/types.h
+.\objects\yts_main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\yts_main.o: ..\..\..\..\test\yunit\include\yunit.h
+.\objects\yts_main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\yts_main.o: ..\..\..\..\test\testcase\include\yts.h

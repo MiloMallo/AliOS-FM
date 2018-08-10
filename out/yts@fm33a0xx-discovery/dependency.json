@@ -1,0 +1,51 @@
+{
+    "armv6m": [], 
+    "auto_component": [], 
+    "board_fm33a0xx-discovery": [
+        "modules.fs.kv", 
+        "modules.fs.kv"
+    ], 
+    "cli": [
+        "hal"
+    ], 
+    "fm33a048": [
+        "platform/arch/arm/armv6m", 
+        "rhino", 
+        "platform/arch/arm/armv6m", 
+        "rhino"
+    ], 
+    "hal": [], 
+    "kernel_init": [], 
+    "kv": [
+        "log"
+    ], 
+    "log": [], 
+    "rhino": [
+        "rhino"
+    ], 
+    "test": [], 
+    "testcase": [
+        "yunit"
+    ], 
+    "vcall": [
+        "rhino"
+    ], 
+    "vfs": [
+        "kernel.vfs.device"
+    ], 
+    "vfs_device": [], 
+    "yloop": [
+        "log", 
+        "vfs"
+    ], 
+    "yts": [
+        "testcase", 
+        "rhino.test", 
+        "log", 
+        "vfs", 
+        "yloop", 
+        "hal", 
+        "cli"
+    ], 
+    "yunit": []
+}
