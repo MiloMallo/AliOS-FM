@@ -145,7 +145,7 @@ void DBG_Uart_Deinit(void);
 /* Exported macros -----------------------------------------------------------*/
 #if 1
 #include "debug.h"
-#define PRINTF_RAW(...) DBG_send(__VA_ARGS__)
+#define PRINTF_RAW(...) DBG_Send(__VA_ARGS__)
 #define PRINTF          DBG_PRINTF
 #else
 #define PRINTF_RAW(...)

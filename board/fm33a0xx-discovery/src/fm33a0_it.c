@@ -345,7 +345,7 @@ int linkwan_serial_output(uint8_t *buffer, int len)
 //      	while (UART_UARTIF_RxTxIF_ChkEx(VDBGUART, TxInt) == 0);
 //        UARTx_TXREG_Write(VDBGUART, buffer[index]);
 //    }
-    hal_uart_send(&uart_0, buffer, len, 100);
+    hal_uart_send(&uart_0, buffer, len, len);
     return len;
 }
 

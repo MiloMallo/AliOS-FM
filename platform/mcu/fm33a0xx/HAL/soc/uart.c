@@ -58,10 +58,10 @@ static void Serial_InterruptTx (uint8_t port)
   }
   else 
   {
-//    pComParams->point = 0;
-//    pComParams->processed = 0;
+    pComParams->point = 0;
+    pComParams->processed = 0;
 //    UARTx_TXSTA_TXEN_Setable((UARTx_Type*)uartReg[port],DISABLE);
-    UART_UARTIE_RxTxIE_SetableEx((UARTx_Type*)uartReg[port],TxInt,DISABLE);
+//    UART_UARTIE_RxTxIE_SetableEx((UARTx_Type*)uartReg[port],TxInt,DISABLE);
   }
   
 }
@@ -131,7 +131,8 @@ static int16_t Serial_SvSend (uint8_t port, void * vBuf, uint16_t uSize)
   uint16_t  uLenTemp = 0;
   uint8_t *pBuf = (uint8_t*)vBuf;
   pComParams = & (SerialServerParams[port].send);
-
+  
+  krhino_intrpt_enter();
   if (pComParams->point >= pComParams->processed)
   {
     uLenTemp  = (pComParams->capcity) - (pComParams->point);
@@ -172,12 +173,17 @@ static int16_t Serial_SvSend (uint8_t port, void * vBuf, uint16_t uSize)
     uCount    += uLenTemp;
     uSize     -= uLenTemp;
   }
-  if(UART_UARTIE_RxTxIE_GetableEx((UARTx_Type*)uartReg[port],TxInt)==DISABLE)
-  {
-    UARTx_TXSTA_TXEN_Setable((UARTx_Type*)uartReg[port],ENABLE);
-    UART_UARTIE_RxTxIE_SetableEx((UARTx_Type*)uartReg[port],TxInt,ENABLE);
-  }
-
+//  if(UART_UARTIE_RxTxIE_GetableEx((UARTx_Type*)uartReg[port],TxInt)==DISABLE)
+//  {
+//    UARTx_TXSTA_TXEN_Setable((UARTx_Type*)uartReg[port],ENABLE);
+//    UART_UARTIE_RxTxIE_SetableEx((UARTx_Type*)uartReg[port],TxInt,ENABLE);
+//  }
+  
+  UARTx_TXSTA_TXEN_Setable((UARTx_Type*)uartReg[port],ENABLE);
+  UART_UARTIE_RxTxIE_SetableEx((UARTx_Type*)uartReg[port],TxInt,ENABLE);
+  Serial_InterruptTx (port);
+  krhino_intrpt_exit();
+  
   return uCount;
 }
 
@@ -293,13 +299,13 @@ static void UART_IRQHandler (uint8_t port,UARTx_Type *uartx)
 {
   if (UART_UARTIF_RxTxIF_ChkEx(uartx,TxInt)) //TXÖÐ¶Ï
   {
+    UART_UARTIF_RxTxIF_ClrEx(uartx);
     Serial_InterruptTx(port);
   }
   if (UART_UARTIF_RxTxIF_ChkEx(uartx,RxInt)) //RXÖÐ¶Ï
   {
     Serial_InterruptRx(port);
   }
-
 }
 
 void UART0_IRQHandler (void)
@@ -447,7 +453,7 @@ int32_t hal_uart_init(uart_dev_t *uart)
     default:
       break;
   }
-  SerialBuffInit(uart->port,256,256);
+  SerialBuffInit(uart->port,64,1024);
   RCC_GetClocksFreq(&RCC_Clocks);//get APBClock
   memset(&UART_para,0,sizeof(UART_para));
   if (MODE_TX == uart->config.mode)
@@ -533,9 +539,7 @@ int32_t hal_uart_send(uart_dev_t *uart, const void *data, uint32_t size, uint32_
   while (send_size < size)
   {
     IWDT_Clr();             //feed dog
-    krhino_intrpt_enter();
     send_size+=Serial_SvSend(uart->port,buf,size);
-    krhino_intrpt_exit();
     if(krhino_sys_time_get()-lastMs>timeout)
     {
       return EIO;

@@ -116,7 +116,7 @@ static int dbg_buffer_transmit( int start, int len )
 //        UARTx_TXREG_Write(VDBGUART, dbgTxBuff[i]);
 //      while (UART_UARTIF_RxTxIF_ChkEx(VDBGUART, TxInt) == 0);
 //    }
-    hal_uart_send(&uart_0, &dbgTxBuff[start], len - start, 100);
+    hal_uart_send(&uart_0, &dbgTxBuff[start], len - start, len - start);
     return len;
   #endif
 }
