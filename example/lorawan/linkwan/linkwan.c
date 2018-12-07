@@ -33,7 +33,7 @@ static LoRaMainCallback_t LoRaMainCallbacks = {
 static void lora_task_entry(void *arg)
 {
     lora_init(&LoRaMainCallbacks);
-    set_lora_tx_dutycycle(5000);
+    //set_lora_tx_dutycycle(30000);//TODO 调试使用，30000ms自动发送数据取消
     lora_fsm();
 }
 
@@ -47,14 +47,14 @@ static void LoraTxData(lora_AppData_t *AppData)
     uint8_t index = 0;
 
     AppData->BuffSize = get_lora_tx_len();
-    if (AppData->BuffSize < 1) {
-        AppData->BuffSize = 1;
-    }
+//    if (AppData->BuffSize < 1) {//20181123 修改
+//        AppData->BuffSize = 1;
+//    }
 
-    for (index = 0; index < AppData->BuffSize; index++) {
-        AppData->Buff[index] = '0' + index;
-    }
-    AppData->Port = 100;
+//    for (index = 0; index < AppData->BuffSize; index++) {
+//        AppData->Buff[index] = '0' + index;
+//    }
+    AppData->Port = 101;
     DBG_LINKWAN("tx, port %d, size %d, index %d\r\n", AppData->Port, AppData->BuffSize, g_msg_index++);
 }
 
@@ -62,5 +62,7 @@ static void LoraRxData(lora_AppData_t *AppData)
 {
     if (AppData->BuffSize > 0) {
         DBG_LINKWAN( "rx, port %d, size %d\r\n", AppData->Port, AppData->BuffSize);
+        linkwan_serial_output(AppData->Buff, AppData->BuffSize);
+        DBG_LINKWAN( "\r\n");
     }
 }

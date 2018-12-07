@@ -80,7 +80,7 @@ extern "C" {
  *
  * \remark see STATIC_DEVICE_ADDRESS comments
  */
-#define LORAWAN_DEVICE_ADDRESS                      ( uint32_t )0x0100000a
+#define LORAWAN_DEVICE_ADDRESS                      {0x12, 0x23, 0x34, 0x56}
 
 /**
  * AES encryption/decryption cipher network session key
